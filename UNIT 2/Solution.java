@@ -11,17 +11,45 @@ import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 
 class Result {
-    public static int alternatingCharacters(String s) {
-        int deletions = 0;
+    public static int palindromeIndex(String s) {
+         int left = 0;
+        int right = s.length() - 1;
 
-        for (int i = 1; i < s.length(); i++) {
+        while (left < right) {
 
-            if (s.charAt(i) == s.charAt(i - 1)) {
-                deletions++;
+            if (s.charAt(left) != s.charAt(right)) {
+
+                if (isPalindrome(s, left + 1, right)) {
+                    return left;
+                }
+
+                if (isPalindrome(s, left, right - 1)) {
+                    return right;
+                }
+
+                return -1;
             }
+
+            left++;
+            right--;
         }
 
-        return deletions;
+        return -1;
+    }
+
+    private static boolean isPalindrome(String s, int left, int right) {
+
+        while (left < right) {
+
+            if (s.charAt(left) != s.charAt(right)) {
+                return false;
+            }
+
+            left++;
+            right--;
+        }
+
+        return true;
     }
 
 }
@@ -37,7 +65,7 @@ public class Solution {
             try {
                 String s = bufferedReader.readLine();
 
-                int result = Result.alternatingCharacters(s);
+                int result = Result.palindromeIndex(s);
 
                 bufferedWriter.write(String.valueOf(result));
                 bufferedWriter.newLine();
